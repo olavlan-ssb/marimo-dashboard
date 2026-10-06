@@ -1,10 +1,11 @@
 # /// script
 # dependencies = [
-#     "anywidget==0.11.0",
-#     "faker==40.40.0",
-#     "marimo",
-#     "polars==1.44.2",
+#     "faker>=37.0.0,<38.0.0",
+#     "polars>=1.38.1,<2.0.0",
 #     "ssb-parquedit==0.1.0",
+#     "marimo==0.25.0",
+#     "marimo-studio==0.2.3",
+#     "anywidget==0.11.0",
 # ]
 # requires-python = ">=3.14,<3.15"
 #
