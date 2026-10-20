@@ -1,0 +1,18 @@
+// See config docs here: https://opencode.ai/docs/config
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "permission": {
+    "read": {
+      "/buckets/**": "ask",
+      "~/.cache/uv/**/lib/python*/site-packages/**": "allow",
+      "*": "allow"
+    },
+    "glob": {
+      "~/.cache/uv/**/lib/python*/site-packages/**": "allow"
+    },
+    "edit": "ask",
+    "write": "ask",
+    "bash": "ask"
+  }
+}
