@@ -27,10 +27,17 @@ Følg disse reglene:
 * Begynn alltid med å finne og oppdatere det isolerte Python-miljøet. 
 * Oppdater alltid miljøet etter å ha lagt til pakker.
 * Dashboardene er ikke ment for å ha store mengder logikk, men gi et interaktivt og visuelt lag på toppen av eksisterende SSB-data og SSB-pakker.
-* Bruk Marimo sine interaktive komponenter (`marimo.ui`). Gi i første omgang brukeren mulighet til å velge datafil(er) i `/buckets/`  med komponenten `marimo.ui.file_browser` og justér deretter etter brukerens ønske.
 * Ikke gjett grensesnittet til Python-biblioteker; les kildekode og dokumentasjon direkte fra det isolerte Python-miljøet. 
-* Husk at Marimo-celler returnerer variabler som kan sendes som parametre i andre Marimo-celler. Dette gjelder også pakker som importeres. Unngå sykliske avhengigheter mellom celler.
+* Gi i første omgang brukeren mulighet til å velge datafil(er) i `/buckets/`  med komponenten `marimo.ui.file_browser` og justér deretter etter brukerens ønske.
+
+Viktigste punkter om Marimo-syntaks: 
+
+* Start første celle med `import marimo as mo`.
+* Husk at Marimo-celler returnerer variabler/moduler som kan brukes som parametre i andre Marimo-celler. Pakker importeres én gang i den første cellen som bruker den. Unngå sykliske avhengigheter mellom celler.
+* Bruk Marimo sine komponenter (`marimo.ui`) for interaktivitet. For celler med interaktivitet og annen output, definer en variabel `output` og avslutt cellen med `output` etterfulgt av `return`-uttrykket. Husk feilhåndtering, for eksempel `output = mo.md("Mangler input.")`.
 * Før du presenterer endringer til bruker, sjekk gyldighet og rett eventuelle feil.
+
+
 
 ## 4. Tonalitet
 *   Vær profesjonell, presis og løsningsorientert.
