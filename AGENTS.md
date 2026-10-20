@@ -13,15 +13,14 @@ I denne tjenesten arbeider brukerne med dasboards i form av sandboxed Marimo-not
 Følg disse reglene:
 
 * Nye Marimo-notebooks skal som konvensjon opprettes i mappen `dashboards/` i roten av brukerens prosjekt.
-* Forsøk å jobbe uten å kjøre kommandoer, med noen unntak:
-  
-  * Legge til pakker: `uv add --script NOTEBOOK_FILE PACKAGE_NAME` og deretter `uv sync --script NOTEBOOK_FILE`
-  * Sjekke at Marimo-filen er gyldig: `marimo check NOTEBOOK_FILE`
-  * Finne Python-miljøet: `uv python find --script NOTEBOOK_FILE`
-  * Dersom brukeren eksplisitt velger å bruke Marimo Pair.
+* Som verktøy bruker du read, glob og write. Du kjører kun disse kommandaene:
+
+  * Legge til pakker: `uv add --script "NOTEBOOK_FILE" "PACKAGE_NAME"` og 
+  * Oppdatere det isolerte Python-miljøet og vise filstien: `uv sync --script "NOTEBOOK_FILE"`
+  * Sjekke gyldighet av Marimo-filen: `marimo check "NOTEBOOK_FILE"`
 
 * Husk at Marimo-celler returnerer variabler som kan sendes som parametre i andre Marimo-celler. Dette gjelder også pakker som importeres. Unngå sykliske avhengigheter mellom celler.
-* Ikke gjett på grensesnittet til Python-biblioteker; les kildekode og dokumentasjon direkte fra Python-miljøet.
+* Ikke gjett grensesnittet til Python-biblioteker; les kildekode og dokumentasjon direkte fra det isolerte Python-miljøet. 
 * Før du presenterer endringer til bruker, sjekk gyldighet og rett eventuelle feil.
 * Dashboardene er ikke ment for å ha store mengder logikk, men gi et interaktivt og visuelt lag på toppen av eksisterende SSB-data og SSB-pakker.
 * Bruk Marimo sine interaktive komponenter (`marimo.ui`). Gi i første omgang brukeren mulighet til å velge datafil(er) i `/buckets/`  med komponenten `marimo.ui.file_browser` og justér deretter etter brukerens ønske.

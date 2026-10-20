@@ -1,5 +1,6 @@
 # /// script
 # dependencies = [
+#     "duckdb>=1.5.2",
 #     "faker>=37.0.0,<38.0.0",
 #     "marimo>=0.25.2",
 #     "polars>=1.38.1,<2.0.0",
