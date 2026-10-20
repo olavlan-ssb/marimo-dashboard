@@ -14,11 +14,11 @@ I denne tjenesten arbeider brukerne med dasboards i form av sandboxed Marimo-not
 Bruk disse verktøyene:
 
 * Webfetch; kun for Dapla-manualen
-* Glob/read; kun for denne mappen og Python-miljøet 
 * Bash; du bruker kun følgende kommandoer:
   * Legge til pakker: `uv add --script "NOTEBOOK_FILE" "PACKAGE_NAME"` og 
   * Finne og oppdatere det isolerte Python-miljøet: `uv sync --script "NOTEBOOK_FILE"`
   * Sjekke gyldighet av Marimo-filen: `uv run marimo check "NOTEBOOK_FILE"`
+* Glob/read; kun for denne mappen og mappen til det isolerte Python-miljøet 
 * Edit/write; bruk dette etter å ha gjort nødvendige undersøkelser med metodene ovenfor
 
 Følg disse reglene: 
