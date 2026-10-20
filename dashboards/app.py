@@ -18,6 +18,7 @@ app = marimo.App(width="full", app_title="Parqueditor")
 
 @app.cell
 def imports_and_mock_data():
+    import marimo as mo
     from ssb_parquedit import ParquEdit
     from faker import Faker
     import polars as pl
@@ -69,6 +70,80 @@ def imports_and_mock_data():
                     )
             return con
 
+    return LocalParquEdit, mo
+
+
+@app.cell
+def connection(LocalParquEdit):
+    parquedit = LocalParquEdit.with_mock_tables()
+    return (parquedit,)
+
+
+@app.cell
+def table_picker(mo, parquedit):
+    table_names = parquedit.list_tables()
+    table_picker = mo.ui.dropdown(
+        options=table_names,
+        value=table_names[0] if table_names else None,
+        label="ParquEdit-tabell",
+    )
+    return (table_picker,)
+
+
+@app.cell
+def table_view(mo, parquedit, table_picker):
+    table_name = table_picker.value
+    rows = parquedit.view(table_name, output_format="polars")
+    row_picker = mo.ui.dropdown(
+        options={str(row["rowid"]): int(row["rowid"]) for row in rows.iter_rows(named=True)},
+        value=str(rows[0, "rowid"]) if len(rows) else None,
+        label="Rad",
+    )
+    _table_output = mo.vstack([mo.md(f"### {table_name}"), mo.ui.table(rows), row_picker])
+    return row_picker, rows, table_name
+
+
+@app.cell
+def edit_form(mo, row_picker, rows):
+    selected = rows.filter(rows["rowid"] == row_picker.value).row(0, named=True)
+    fields = {
+        column: mo.ui.text(value="" if selected[column] is None else str(selected[column]), label=column)
+        for column in rows.columns
+        if column != "rowid"
+    }
+    fields["change_event_reason"] = mo.ui.text(value="correction", label="Endringsårsak")
+    fields["change_comment"] = mo.ui.text(label="Kommentar")
+    save = mo.ui.button(label="Lagre endring", kind="success")
+    form = mo.ui.dictionary(fields).form(show_clear_button=False)
+    _edit_output = mo.vstack([mo.md(f"**Valgt rowid:** `{row_picker.value}`"), form, save])
+    return form, save
+
+
+@app.cell
+def save_edit(form, mo, parquedit, row_picker, save, table_name):
+    if form is not None and save.value:
+        values = form.value
+        changes = {key: value for key, value in values.items() if key not in {"change_event_reason", "change_comment"}}
+        parquedit.edit(
+            table_name,
+            int(row_picker.value),
+            changes,
+            values["change_event_reason"],
+            values["change_comment"],
+        )
+        edit_result = mo.md("Endringen er lagret. Velg raden på nytt for å se oppdatert verdi.")
+    else:
+        edit_result = mo.md("Velg en rad og fyll ut skjemaet for å redigere.")
+    return
+
+
+@app.cell
+def history(mo, parquedit, table_name):
+    edits = parquedit.get_edits(table_name)
+    history_output = mo.vstack([
+        mo.md("### Endringshistorikk"),
+        mo.ui.table(edits) if not edits.empty else mo.md("Ingen endringer registrert."),
+    ])
     return
 
 

@@ -17,26 +17,55 @@ Bruk disse verktøyene:
 * Bash; du bruker kun følgende kommandoer:
   * Finne og oppdatere det isolerte Python-miljøet: `uv sync --script "NOTEBOOK_FILE"`
   * Legge til pakker: `uv add --script "NOTEBOOK_FILE" "PACKAGE_NAME"` og 
-  * Sjekke gyldighet av Marimo-filen: `uv run marimo check "NOTEBOOK_FILE"`
+  * Sjekke gyldighet av Marimo-filen: `uv run --script "NOTEBOOK_FILE" marimo check "NOTEBOOK_FILE"`
 * Glob/read; kun for denne mappen og mappen til det isolerte Python-miljøet 
 * Edit/write; bruk dette etter å ha gjort nødvendige undersøkelser med metodene ovenfor
+
+Følg dette mønsteret når du setter inn celler:
+
+```py
+@app.cell
+def file_browser():
+    import marimo as mo
+
+    file_browser_output = mo.ui.file_browser(
+        initial_path="/buckets/",
+        filetypes=["parquet"],
+        selection_mode="file",
+        multiple=False,
+    )
+    file_browser_output
+    return file_browser_output, mo
+
+
+@app.cell
+def table(file_browser, mo):
+    import polars as pl
+ 
+    selected_files = file_browser_output.value
+    if len(selected_files) > 0:
+        df = pl.read_parquet(selected_files[0].path)
+        table_output = mo.ui.table(df)
+    else:
+        table_output = mo.md("Ingen fil er valgt.")
+    table_output
+    return table_output
+```
+
+Husk:
+
+* Alle funksjoner/variabler/moduler må ha et unikt og meningsfullt navn 
+* Celler returnerer variabler/moduler som brukes som parametre i andre celler; unngå sykliske avhengigheter
+* Output må skrives før `return`-linjen for å vises til brukeren
 
 Følg disse reglene: 
 
 * Nye Marimo-notebooks skal som konvensjon opprettes i mappen `dashboards/`. 
 * Begynn alltid med å finne og oppdatere det isolerte Python-miljøet. 
 * Oppdater alltid miljøet etter å ha lagt til pakker.
-* Dashboardene er ikke ment for å ha store mengder logikk, men gi et interaktivt og visuelt lag på toppen av eksisterende SSB-data og SSB-pakker.
+* Notebookene er ikke ment for å ha store mengder logikk, men gi et interaktivt og visuelt lag på toppen av eksisterende SSB-data og SSB-pakker.
 * Ikke gjett grensesnittet til Python-biblioteker; les kildekode og dokumentasjon direkte fra det isolerte Python-miljøet. 
-* Gi i første omgang brukeren mulighet til å velge datafil(er) i `/buckets/`  med komponenten `marimo.ui.file_browser` og justér deretter etter brukerens ønske.
-
-Viktigste punkter om Marimo-syntaks: 
-
-* Start første celle med `import marimo as mo`.
-* Husk at Marimo-celler returnerer variabler/moduler som kan brukes som parametre i andre Marimo-celler. Pakker importeres én gang i den første cellen som bruker den. Unngå sykliske avhengigheter mellom celler.
-* Bruk Marimo sine komponenter (`marimo.ui`) for interaktivitet. For celler med interaktivitet og annen output, definer en variabel `output` og avslutt cellen med `output` etterfulgt av `return`-uttrykket. Husk feilhåndtering, for eksempel `output = mo.md("Mangler input.")`.
-* Før du presenterer endringer til bruker, sjekk gyldighet og rett eventuelle feil.
-
+* Gi i første omgang brukeren mulighet til å velge datafil(er) i `/buckets/` justér deretter etter brukerens ønske.
 
 
 ## 4. Tonalitet
