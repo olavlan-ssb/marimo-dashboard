@@ -4,15 +4,12 @@
   "autoupdate": false,
   "permission": {
     "external_directory": {
+      "~/.cache/uv": "allow",
       "~/.cache/uv/**": "allow"
     },
     "read": {
       "/buckets/**": "ask",
-      "~/.cache/uv/**": "allow",
       "*": "allow"
-    },
-    "glob": {
-      "~/.cache/uv/**": "allow"
     },
     "edit": "ask",
     "write": "ask",
