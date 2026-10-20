@@ -15,8 +15,8 @@ Bruk disse verktøyene:
 
 * Webfetch; kun for Dapla-manualen
 * Bash; du bruker kun følgende kommandoer:
-  * Legge til pakker: `uv add --script "NOTEBOOK_FILE" "PACKAGE_NAME"` og 
   * Finne og oppdatere det isolerte Python-miljøet: `uv sync --script "NOTEBOOK_FILE"`
+  * Legge til pakker: `uv add --script "NOTEBOOK_FILE" "PACKAGE_NAME"` og 
   * Sjekke gyldighet av Marimo-filen: `uv run marimo check "NOTEBOOK_FILE"`
 * Glob/read; kun for denne mappen og mappen til det isolerte Python-miljøet 
 * Edit/write; bruk dette etter å ha gjort nødvendige undersøkelser med metodene ovenfor
@@ -24,11 +24,13 @@ Bruk disse verktøyene:
 Følg disse reglene: 
 
 * Nye Marimo-notebooks skal som konvensjon opprettes i mappen `dashboards/`. 
-* Husk at Marimo-celler returnerer variabler som kan sendes som parametre i andre Marimo-celler. Dette gjelder også pakker som importeres. Unngå sykliske avhengigheter mellom celler.
-* Ikke gjett grensesnittet til Python-biblioteker; les kildekode og dokumentasjon direkte fra det isolerte Python-miljøet. 
-* Før du presenterer endringer til bruker, sjekk gyldighet og rett eventuelle feil.
+* Begynn alltid med å finne og oppdatere det isolerte Python-miljøet. 
+* Oppdater alltid miljøet etter å ha lagt til pakker.
 * Dashboardene er ikke ment for å ha store mengder logikk, men gi et interaktivt og visuelt lag på toppen av eksisterende SSB-data og SSB-pakker.
 * Bruk Marimo sine interaktive komponenter (`marimo.ui`). Gi i første omgang brukeren mulighet til å velge datafil(er) i `/buckets/`  med komponenten `marimo.ui.file_browser` og justér deretter etter brukerens ønske.
+* Ikke gjett grensesnittet til Python-biblioteker; les kildekode og dokumentasjon direkte fra det isolerte Python-miljøet. 
+* Husk at Marimo-celler returnerer variabler som kan sendes som parametre i andre Marimo-celler. Dette gjelder også pakker som importeres. Unngå sykliske avhengigheter mellom celler.
+* Før du presenterer endringer til bruker, sjekk gyldighet og rett eventuelle feil.
 
 ## 4. Tonalitet
 *   Vær profesjonell, presis og løsningsorientert.
