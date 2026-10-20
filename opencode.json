@@ -5,11 +5,11 @@
   "permission": {
     "read": {
       "/buckets/**": "ask",
-      "~/.cache/uv/**/lib/python*/site-packages/**": "allow",
+      "~/.cache/uv/**": "allow",
       "*": "allow"
     },
     "glob": {
-      "~/.cache/uv/**/lib/python*/site-packages/**": "allow"
+      "~/.cache/uv/**": "allow"
     },
     "edit": "ask",
     "write": "ask",
