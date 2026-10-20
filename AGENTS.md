@@ -54,9 +54,10 @@ def table(file_browser, mo):
 
 Husk:
 
-* Alle funksjoner/variabler/moduler må ha et unikt og meningsfullt navn 
+* Alle funksjoner og variabler må ha et unikt og meningsfullt navn 
 * Celler returnerer variabler/moduler som brukes som parametre i andre celler; unngå sykliske avhengigheter
-* Output må skrives før `return`-linjen for å vises til brukeren
+* Celler med output må avsluttes på måten vist i eksempelet og kan ikke ha tidlig returverdi
+* Sjekk alltid gyldigheten av Marimo-filen etter endringer
 
 Følg disse reglene: 
 
