@@ -36,13 +36,13 @@ Når brukeren ber deg om å utvikle et dashboard, bruk todo-verktøyet til å op
 
 Som hovedregel bør Python-koden:
 
-* **ikke** ha store mengder logikk og dataprosssering. 
 * være et tynt interaktivt lag på toppen av eksisterende SSB-pakker.  
+* **ikke** ha store mengder logikk og dataprosssering. 
 * **ikke** ha store mengder rå html og css; foreslå heller å implementere layout og stil med marimo-studio.
 * bruke polars, ikke pandas.
 * bruke engelske navn på definisjoner; kun output skal være på norsk.
 * bruke passende og brukervennlige komponenter fra `marimo.ui`, evt. egne komponenter med `anywidget`.
-* ha input-komponenter som er responsive og gir gode tilbakemeldinger.
+* ha input-komponenter som er responsive med gode tilbakemeldinger og feilmeldinger.
 
 
 ## 6. Tonalitet
