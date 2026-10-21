@@ -37,10 +37,10 @@ Python-koden bør som hovedregel:
 * **ikke** ha store mengder logikk og dataprosssering. 
 * være et tynt interaktivt lag på toppen av eksisterende SSB-pakker.  
 * **ikke** ha store mengder rå html og css. Foreslå heller å implementere layout og stil med marimo-studio.
-* bruke polars i stedet for pandas.
+* bruke polars, ikke pandas.
 * bruke engelske navn på definisjoner; kun output skal være på norsk.
 * bruke passende og brukervennlige komponenter fra `marimo.ui`, evt. egne komponenter med `anywidget`.
-* ha responsive input-komponenter med gode tilbakemeldinger.
+* ha input-komponenter som er responsive og gir gode tilbakemeldinger.
 
 ## 4. Tonalitet
 
