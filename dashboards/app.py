@@ -79,5 +79,117 @@ def connection(LocalParquEdit):
     return (parquedit,)
 
 
+@app.cell
+def table_selector(mo, parquedit):
+    table_selector_output = mo.ui.dropdown(
+        options=parquedit.list_tables(),
+        label="ParquEdit-tabell",
+    )
+    table_selector_output
+    return (table_selector_output,)
+
+
+@app.cell
+def table_view(mo, parquedit, table_selector_output):
+    import polars as _pl
+
+    _selected_table_name = table_selector_output.value
+    if _selected_table_name:
+        selected_table_data = parquedit.view(
+            _selected_table_name, output_format="polars"
+        )
+        table_view_output = mo.ui.table(selected_table_data)
+    else:
+        selected_table_data = _pl.DataFrame()
+        table_view_output = mo.md("Velg en tabell.")
+    table_view_output
+    return (selected_table_data,)
+
+
+@app.cell
+def row_editor(mo, selected_table_data, table_selector_output):
+    import polars as _pl
+
+    _selected_table_name = table_selector_output.value
+    if _selected_table_name and selected_table_data.height:
+        first_row = selected_table_data.row(0, named=True)
+        editor_controls = {
+            "rowid": mo.ui.number(
+                start=0,
+                stop=max(int(selected_table_data["rowid"].max()), 0),
+                value=int(first_row["rowid"]),
+                label="rowid",
+            ),
+        }
+        for _column_name, _column_value in first_row.items():
+            if _column_name != "rowid":
+                editor_controls[_column_name] = mo.ui.text(
+                    value="" if _column_value is None else str(_column_value),
+                    label=_column_name,
+                )
+        row_editor_output = mo.ui.form(
+            mo.ui.dictionary(editor_controls),
+            submit_button_label="Lagre rad",
+            show_clear_button=False,
+        )
+    else:
+        row_editor_output = mo.md("Velg en tabell med data for å redigere en rad.")
+    row_editor_output
+    return (row_editor_output,)
+
+
+@app.cell
+def save_row(
+    mo,
+    parquedit,
+    row_editor_output,
+    selected_table_data,
+    table_selector_output,
+):
+    import polars as _pl
+
+    save_message = None
+    if hasattr(row_editor_output, "value") and row_editor_output.value:
+        submitted_values = row_editor_output.value
+        _selected_table_name = table_selector_output.value
+        rowid = int(submitted_values.pop("rowid"))
+        original_row = selected_table_data.filter(_pl.col("rowid") == rowid).row(
+            0, named=True
+        )
+        changes = {}
+        for _column_name, _new_value in submitted_values.items():
+            _column_type = selected_table_data.schema[_column_name]
+            _converted_value = _pl.Series([_new_value]).cast(_column_type).item()
+            if _converted_value != original_row[_column_name]:
+                changes[_column_name] = _converted_value
+        if changes:
+            parquedit.edit(
+                _selected_table_name,
+                rowid,
+                changes,
+                change_event_reason="interactive_edit",
+                change_comment="Rad redigert i ParquEdit-dashboardet",
+            )
+            save_message = mo.md("Rad lagret.")
+        else:
+            save_message = mo.md("Ingen endringer å lagre.")
+    if save_message:
+        save_message
+    return
+
+
+@app.cell
+def change_history(mo, parquedit, table_selector_output):
+    _selected_table_name = table_selector_output.value
+    if _selected_table_name:
+        history_data = parquedit.get_edits(_selected_table_name)
+        history_output = mo.ui.table(history_data)
+    else:
+        history_output = mo.md("Velg en tabell for å se endringshistorikken.")
+    mo.md("### Endringshistorikk")
+    history_output
+    return
+
+
 if __name__ == "__main__":
     app.run()

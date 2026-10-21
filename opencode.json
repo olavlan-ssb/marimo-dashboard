@@ -11,6 +11,9 @@
       "/buckets/**": "ask",
       "*": "allow"
     },
+    "skill": {
+      "marimo-pair": "allow"
+    },
     "edit": "ask",
     "write": "ask",
     "bash": "ask"
