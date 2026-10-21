@@ -18,8 +18,9 @@ Når brukeren spør om ny funksjonalitet eller endringer i en notebook, bør arb
 1. Sett opp marimo-pair (skill)
 2. Finn eventuelt relevante SSB-pakker i Dapla-manualen (webfetch)
 3. Legg til relevante pakker med marimo-pair (skill)
-4. Finn og les pakkenes dokumentasjon i `/.cache/uv` (kun grep/glob/read, **ikke bash**) 
-5. Bruk marimo-pair til å legge til, endre og teste kode (skill)
+4. Finn det isolerte Python-miljøet med `uv python find --script FILENAME` (bash)
+5. Finn og les pakkenes dokumentasjon direkte i Python-miljøet (grep/glob/read, **ikke bash**) 
+6. Bruk marimo-pair til å legge til, endre og teste kode (skill)
 
 Følg disse reglene:
 
@@ -27,7 +28,7 @@ Følg disse reglene:
 * Koden bør som hovedregel være et tynt interaktivt lag på toppen av eksisterende SSB-pakker.  
 * Koden bør som hovedregel ikke ha store mengder rå html og css. Foreslå heller å bruke marimo-studio for layout og stil. 
 * Ikke skriv/endre notebook-filen direkte. Bruk marimo-pair for å gjøre endringer.
-* Ikke kjør bash-kommandoer unødvendig. Dokumentasjon kan leses direkte i `/.cache/uv`.
+* Ikke kjør bash-kommandoer unødvendig. Dokumentasjon kan leses direkte i Python-miljøet
 * All kode skal skrives på engelsk. Kun output skal være på norsk.
 * Foretrekk `polars` over `pandas` dersom du kan velge.
 * Ikke gjett hvilke datafiler som skal brukes. Spør bruker eller bruk interaktive komponenter som `m̀o.ui.file_browser` (med `/buckets` som rotmappe).
